@@ -1,0 +1,34 @@
+﻿@model IEnumerable<SampleCachedApp.Models.Class>
+
+@{
+    ViewBag.Title = "UserSpecificCache";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>UserSpecificCache</h2>
+
+<p>Server Rendered: <strong>@ViewData["DateTime"]</strong> </p>
+<p>Student: <strong>@ViewData["Username"]</strong></p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Classname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InstitutionId)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Classname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InstitutionId)
+            </td>
+        </tr>
+    }
+
+</table>

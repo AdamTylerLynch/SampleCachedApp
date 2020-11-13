@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using SampleCachedApp.Models;
@@ -24,6 +25,10 @@ namespace SampleCachedApp.Controllers
 
             ViewData["DateTime"] = DateTime.Now;
             ViewData["institution"] = institution + ".png";
+
+            //Simulate long running queries
+            Thread.Sleep(5000);
+
             System.Diagnostics.Debug.WriteLine("Server Side Processing");
             return View(classes);
         }
@@ -41,6 +46,10 @@ namespace SampleCachedApp.Controllers
 
             ViewData["Username"] = "Student-" + new Random(10).Next();
             ViewData["DateTime"] = DateTime.Now;
+
+            //Simulate long running queries
+            Thread.Sleep(5000);
+
             System.Diagnostics.Debug.WriteLine("Server Side Processing");
             return View(classes);
         }
@@ -59,6 +68,10 @@ namespace SampleCachedApp.Controllers
 
             ViewData["DateTime"] = DateTime.Now;
             ViewData["institution"] = institution + ".png";
+
+            //Simulate long running queries
+            Thread.Sleep(5000);
+
             System.Diagnostics.Debug.WriteLine("Server Side Processing");
             return View(classes);
         }

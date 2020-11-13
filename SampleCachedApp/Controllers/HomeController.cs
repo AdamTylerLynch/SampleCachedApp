@@ -44,7 +44,7 @@ namespace SampleCachedApp.Controllers
 
             var classes = db.Classes.ToList();
 
-            ViewData["Username"] = "Student-" + new Random(10).Next();
+            ViewData["Username"] = "Student-" + new Random().Next(1000);
             ViewData["DateTime"] = DateTime.Now;
 
             //Simulate long running queries

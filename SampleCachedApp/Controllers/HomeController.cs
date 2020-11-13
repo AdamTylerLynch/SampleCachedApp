@@ -9,6 +9,7 @@ namespace SampleCachedApp.Controllers
 {
     public class HomeController : Controller
     {
+        //[OutputCache(Duration = 30, VaryByParam = "id", Location = System.Web.UI.OutputCacheLocation.Server)]
         [OutputCache(CacheProfile = "Multitenant")]
         public ActionResult Index()
         {
@@ -27,6 +28,7 @@ namespace SampleCachedApp.Controllers
             return View(classes);
         }
 
+        //[OutputCache(Duration = 30, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Client)]
         [OutputCache(CacheProfile = "UserSpecificContent")]
         public ActionResult UserSpecificCache()
         {

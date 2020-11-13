@@ -9,17 +9,37 @@ namespace SampleCachedApp.Controllers
 {
     public class HomeController : Controller
     {
-        [OutputCache(Duration = 600,Location = System.Web.UI.OutputCacheLocation.Server, VaryByParam = "institution")]
+        [OutputCache(CacheProfile = "Multitenant")]
         public ActionResult Index()
         {
             var  db = new SampleDataEntities();
             int institution = 1;
-            int.TryParse(Request.QueryString["institution"], out institution);
+            if (!int.TryParse(Request.QueryString["id"], out institution))
+            {
+                institution = 1;
+            }
 
-            var classes = db.Classes.Where(x => x.InstitutionId.Value == 1);
+            var classes = db.Classes.Where(x => x.InstitutionId.Value == institution);
 
             ViewData["DateTime"] = DateTime.Now;
-        
+            ViewData["institution"] = institution + ".png";
+            System.Diagnostics.Debug.WriteLine("Server Side Processing");
+            return View(classes);
+        }
+
+        [OutputCache(CacheProfile = "UserSpecificContent")]
+        public ActionResult UserSpecificCache()
+        {
+            var db = new SampleDataEntities();
+
+            int institution = 1;
+            int.TryParse(Request.QueryString["id"], out institution);
+
+            var classes = db.Classes.ToList();
+
+            ViewData["Username"] = "Student-" + new Random(10).Next();
+            ViewData["DateTime"] = DateTime.Now;
+            System.Diagnostics.Debug.WriteLine("Server Side Processing");
             return View(classes);
         }
 
@@ -27,30 +47,20 @@ namespace SampleCachedApp.Controllers
         {
             ViewBag.Message = "Your application description page.";
             var db = new SampleDataEntities();
-            int institution = 1;
-            int.TryParse(Request.QueryString["institution"], out institution);
+            int institution = 2;
+            if (!int.TryParse(Request.QueryString["id"], out institution))
+            {
+                institution = 2;
+            }
 
-            var classes = db.Classes.Where(x => x.InstitutionId.Value == 2);
+            var classes = db.Classes.Where(x => x.InstitutionId.Value == institution);
 
             ViewData["DateTime"] = DateTime.Now;
-
+            ViewData["institution"] = institution + ".png";
+            System.Diagnostics.Debug.WriteLine("Server Side Processing");
             return View(classes);
         }
 
-        [OutputCache(Duration = 600, VaryByParam = "none", Location = System.Web.UI.OutputCacheLocation.Client)]
-        public ActionResult UserSpecificCache()
-        {
-            var db = new SampleDataEntities();
 
-            int institution = 1;
-            int.TryParse(Request.QueryString["institution"], out institution);
-
-            var classes = db.Classes.Where(x => x.InstitutionId.Value == 2);
-
-            ViewData["Username"] = "Student-" + new Random(10).Next();
-            ViewData["DateTime"] = DateTime.Now;
-
-            return View(classes);
-        }
     }
 }
